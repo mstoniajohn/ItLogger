@@ -3,10 +3,43 @@ const express = require('express');
 const router = express.Router();
 const Logs = require('../models/Logs');
 
-router.get('/', (req, res) => {
-	res.json({ message: 'hello' });
+router.get('/', async (req, res) => {
+	try {
+		const logs = await Logs.find();
+		res.json(logs);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server error.');
+	}
 });
-router.put('/:id', (req, res) => {});
+router.put('/:id', async (req, res) => {
+	const { message, tech, attention } = req.body;
+
+	// Build contact object
+	const logFields = {};
+	if (message) logFields.message = message;
+	if (tech) logFields.tech = tech;
+	if (attention) logFields.attention = attention;
+
+	try {
+		let log = await Logs.findById(req.params.id);
+		if (!log) return res.status(404).json({ msg: 'Log not found' });
+		// Make sure user owns contact
+		//   if (contact.user.toString() !== req.user.id) {
+		// 	return res.status(401).json({msg: 'Not authorized'});
+		//   }
+		clog = await Logs.findByIdAndUpdate(
+			req.params.id,
+			{ $set: logFields },
+			{ new: true }
+		);
+
+		res.json({ msg: 'Log saved' });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server error.');
+	}
+});
 router.post('/', async (req, res) => {
 	const { message, attention, tech } = req.body;
 
@@ -24,4 +57,13 @@ router.post('/', async (req, res) => {
 	}
 });
 
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', async (req, res) => {
+	try {
+		await Logs.findByIdAndRemove(req.params.id);
+		res.json({ msg: 'Contact removed' });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server error.');
+	}
+});
+module.exports = router;
