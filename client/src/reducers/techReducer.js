@@ -1,4 +1,4 @@
-import { GET_TECHS, SET_LOADING, DELETE_TECH } from '../actions/types';
+import { GET_TECHS, SET_LOADING } from '../actions/types';
 
 const initialState = {
 	techs: null,

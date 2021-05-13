@@ -10,7 +10,7 @@ import {
 	CLEAR_CURRENT,
 } from './types';
 // get logs from server.js",
-import axios from 'axios';
+// import axios from 'axios';
 
 // export const getLogs = () => {
 // 	return async (dispatch) => {
