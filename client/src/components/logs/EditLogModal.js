@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// import TechSelectOptions from '../techs/TechSelectOptions';
+import TechSelectOptions from '../techs/TechSelectOptions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateLog } from '../../actions/logActions';
@@ -27,7 +27,6 @@ const EditLogModal = ({ updateLog, current }) => {
 				message,
 				attention,
 				tech,
-				date: new Date(),
 			};
 			updateLog(updLog);
 			M.toast({ html: `Log added by ${tech}` });
@@ -68,9 +67,8 @@ const EditLogModal = ({ updateLog, current }) => {
 							<option value="" disabled>
 								Select Technician
 							</option>
-							<option value="Tonia">Tonia</option>
-							<option value="Keisha">Keisha</option>
-							{/* <TechSelectOptions /> */}
+
+							<TechSelectOptions />
 						</select>
 					</div>
 				</div>
@@ -82,6 +80,7 @@ const EditLogModal = ({ updateLog, current }) => {
 								<input
 									type="checkbox"
 									className="filled-in"
+									name="attention"
 									checked={attention}
 									value={attention}
 									onChange={(e) => setAttention(!attention)}

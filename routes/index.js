@@ -24,11 +24,8 @@ router.put('/:id', async (req, res) => {
 	try {
 		let log = await Logs.findById(req.params.id);
 		if (!log) return res.status(404).json({ msg: 'Log not found' });
-		// Make sure user owns contact
-		//   if (contact.user.toString() !== req.user.id) {
-		// 	return res.status(401).json({msg: 'Not authorized'});
-		//   }
-		clog = await Logs.findByIdAndUpdate(
+
+		log = await Logs.findByIdAndUpdate(
 			req.params.id,
 			{ $set: logFields },
 			{ new: true }
@@ -42,6 +39,7 @@ router.put('/:id', async (req, res) => {
 });
 router.post('/', async (req, res) => {
 	const { message, attention, tech } = req.body;
+	// Build contact object
 
 	try {
 		const newLog = new Logs({

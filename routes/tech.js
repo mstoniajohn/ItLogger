@@ -18,17 +18,25 @@ router.post('/', async (req, res) => {
 	const { firstName, lastName } = req.body;
 
 	try {
-		const newTech = new Technicians({
+		const newTech = new Techs({
 			firstName,
 			lastName,
 		});
-		let technician = await newTech.save();
-		res.json(technician);
+		let tech = await newTech.save();
+		res.json(tech);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server error.');
 	}
 });
 
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', async (req, res) => {
+	try {
+		await Techs.findByIdAndRemove(req.params.id);
+		res.json({ msg: 'TEch removed' });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server error.');
+	}
+});
 module.exports = router;

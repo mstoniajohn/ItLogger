@@ -8,5 +8,9 @@ const TechSchema = mongoose.Schema({
 	lastName: {
 		type: String,
 	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 module.exports = mongoose.model('tech', TechSchema);
