@@ -9,7 +9,7 @@ const Logs = ({ log: { logs, loading, error, filtered }, getLogs }) => {
 		getLogs();
 		// eslint-disable-next-line
 	}, []);
-	console.log(logs);
+	// console.log(logs);
 
 	if (loading || logs === null) {
 		return <Preloader />;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const TechListModal = ({ getTechs, tech: { techs, loading } }) => {
-	console.log(techs);
+	// console.log(techs);
 
 	useEffect(() => {
 		getTechs();

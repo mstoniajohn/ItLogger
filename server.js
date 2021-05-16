@@ -8,6 +8,7 @@ connectDB();
 // Initialize middleware
 app.use(express.json({ extended: false }));
 app.use('/api/logs', require('./routes/index'));
+app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/techs', require('./routes/tech'));
 
 // Serve static assets in production
