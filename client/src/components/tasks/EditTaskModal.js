@@ -1,53 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// import TechSelectOptions from '../techs/TechSelectOptions';
+import TechSelectOptions from '../techs/TechSelectOptions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addTask } from '../../actions/taskActions';
+import { updateTask } from '../../actions/taskActions';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const AddTaskModal = ({ addTask }) => {
+const EditTaskModal = ({ updateTask, current }) => {
 	const [text, setText] = useState('');
 	const [reminder, setReminder] = useState(false);
 	const [day, setDay] = useState('');
+	useEffect(() => {
+		if (current) {
+			setText(current.text);
+			setReminder(current.reminderattention);
+			setDay(current.day);
+		}
+	}, [current]);
 
 	const onSubmit = () => {
 		if (text === '') {
-			M.toast({ html: 'Please enter a message' });
+			M.toast({ html: 'Please enter a message and tech' });
 		} else {
-			const newTask = {
+			const updTask = {
+				_id: current._id,
 				text,
 				reminder,
 				day,
 			};
-			addTask(newTask);
-
-			M.toast({ html: `Task added` });
+			updateTask(updTask);
+			M.toast({ html: `Log added by ${day}` });
 
 			// Clear Fields
 			setText('');
-			setDay('');
-			setReminder(false);
+			setReminder('');
+			setDay(false);
 		}
 	};
 
 	return (
-		<div id="add-task-modal" className="modal" style={modalStyle}>
+		<div id="edit-task-modal" className="modal" style={modalStyle}>
 			<div className="modal-content">
-				<h4>Enter A New Task</h4>
+				<h4>Enter Task</h4>
 				<div className="row">
 					<div className="input-field">
 						<input
 							type="text"
-							name="text"
+							name="message"
 							value={text}
 							onChange={(e) => setText(e.target.value)}
 						/>
-						<label htmlFor="message" className="active">
-							Task Message
-						</label>
+						{/* <label htmlFor="message" className="active">
+							Log Message
+						</label> */}
 					</div>
 				</div>
+
 				<div className="row">
 					<div className="input-field">
 						<input
@@ -96,8 +104,11 @@ const modalStyle = {
 	width: '75%',
 	height: '75%',
 };
-AddTaskModal.propTypes = {
-	addTask: PropTypes.func.isRequired,
+EditTaskModal.propTypes = {
+	updateLog: PropTypes.func.isRequired,
+	current: PropTypes.object,
 };
-
-export default connect(null, { addTask })(AddTaskModal);
+const mapStateToProps = (state) => ({
+	current: state.task.current,
+});
+export default connect(mapStateToProps, { updateTask })(EditTaskModal);

@@ -2,7 +2,7 @@ import {
 	GET_TASKS,
 	ADD_TASK,
 	DELETE_TASK,
-	// UPDATE_TASK,
+	UPDATE_TASK,
 	TASKS_ERROR,
 	SET_CURRENT,
 	CLEAR_CURRENT,
@@ -57,6 +57,24 @@ export const deleteTask = (id) => async (dispatch) => {
 		const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
 
 		dispatch({ type: DELETE_TASK, payload: id });
+	} catch (err) {
+		dispatch({ type: TASKS_ERROR, payload: err.response.statusText });
+	}
+};
+
+export const updateTask = (task) => async (dispatch) => {
+	try {
+		setLoading();
+		const res = await fetch(`/api/tasks/${task._id}`, {
+			method: 'PUT',
+			body: JSON.stringify(task),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		const data = await res.json();
+
+		dispatch({ type: UPDATE_TASK, payload: data });
 	} catch (err) {
 		dispatch({ type: TASKS_ERROR, payload: err.response.statusText });
 	}

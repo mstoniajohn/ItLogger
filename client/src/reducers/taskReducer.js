@@ -37,6 +37,14 @@ export default (state = initialState, action) => {
 				...state,
 				current: action.payload,
 			};
+		case UPDATE_TASK:
+			return {
+				...state,
+
+				tasks: state.tasks.map((task) =>
+					task._id === action.payload ? action.payload : task
+				),
+			};
 		// case FILTER_LOGS:
 		// 	return {
 		// 		...state,
