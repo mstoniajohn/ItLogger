@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import TechSelectOptions from '../techs/TechSelectOptions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateTask } from '../../actions/taskActions';
@@ -13,7 +12,7 @@ const EditTaskModal = ({ updateTask, current }) => {
 	useEffect(() => {
 		if (current) {
 			setText(current.text);
-			setReminder(current.reminderattention);
+			setReminder(current.reminder);
 			setDay(current.day);
 		}
 	}, [current]);
